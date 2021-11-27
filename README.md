@@ -1,18 +1,18 @@
 # ECE309-connect4
-Game Description:
+Game Description: \n
 _Filler_
 
-How to Run:
+How to Run: \n
 _Filler_
 
-Unique Features:
+Unique Features: \n
 _Filler_
 
-Known Bugs:
+Known Bugs: \n
 _Filler_
 
 
-*Changelog:*
+*Changelog:* \n
 Version 1.1:
 The coding is granted comments and optimizations. Quality of life changes for the user interface.
 
