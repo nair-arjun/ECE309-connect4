@@ -23,7 +23,7 @@ public:
 
 class Table4 : public Table { // The child of Table, named Table4 as it is used for connect 4
 private:
-    int id; // game ID
+    int id; // game ID 
     int pieces = 42; // Total amount of plays to make during the game (6x7)
 public:
     Table4(int ID = 0, int p = 42) {
@@ -40,12 +40,14 @@ public:
         pieces = pieces - 1;
         return *this;
     }
-    void print (){  // Creates the user interface (the board)
+    void print (int ID){  // Creates the user interface (the board)
         int x = 0;
         while(x < 6) {
             int y = 0;
             while(y < 7){
-                cout  << table4[x][y] << " ";
+                cout  << table4[x][y];
+                if (ID >= 10 && table4[x][y] == 0) cout << table4[x][y]; // If the ID's will contain double digit numbers, add an extra 0 for empty spaces
+                cout  << " ";
                 y++;
             }
             cout << endl;
@@ -112,8 +114,8 @@ public:
         int x = 0; // x is a rising count of the turns played
         int row = 5; //
         int col = 0;
-        int player = 1;
-        while((x < 42) && (check(1) != 1) && (check (2) != 1)){
+        int player = ID;
+        while((x < 42) && (check(ID) != 1) && (check (ID+1) != 1)){
             cout << "Player " << player << "'s turn! Which column do you want to place your piece in? (1-7) \n";
             cin >> col;
             col = col - 1;
@@ -128,7 +130,7 @@ public:
                 }
                 else{
                     if(table4[0][col] != 0){
-                        print();
+                        print(ID);
                         cout << "Column is full! Pick another! \n";
                         col = 0;
                         cin >> col;
@@ -147,22 +149,22 @@ public:
                             }
                         }
                         if (table4[row][col] == 0) {
-                            if(player == 1) {
-                                table4[row][col] = 1;
+                            if(player == ID) {
+                                table4[row][col] = ID;
                                 pieces--;
                             }
                             else{
-                                table4[row][col] = 2;
+                                table4[row][col] = ID+1;
                                 pieces--;
                             }
                             x++;
-                            if(player == 1){
-                                player = 2;
+                            if(player == ID){
+                                player = ID+1;
                             }
                             else{
-                                player = 1;
+                                player = ID;
                             }
-                            print();
+                            print(ID);
                             break;
                         }
                         row--;
@@ -171,9 +173,9 @@ public:
             }
         }
         // The end of the game is reached
-        if(check(1) == 1)       cout << "Player 1 Wins! \n" << endl;
-        else if (check(2) == 1) cout << "Player 2 Wins! \n" << endl;
-        else                    cout << "Board is full! Game over! \n" << endl;
+        if(check(ID) == 1)       cout << "Player " << ID << " Wins! \n" << endl;
+        else if (check(ID) == 1) cout << "Player " << ID+1 << " Wins! \n" << endl;
+        else                     cout << "Board is full! Game over! \n" << endl;
     }
 
 };
@@ -192,14 +194,46 @@ int main() {
     
     //Pre-initialization
     int run = 1;
-    int bots = 0;
-    
-    //Creation of the table
-    Table4 t(1);
-    t.initialize();
-    t.print();
-    t.place(1);
-
+    int humans = 0;
+    int gameID = 1;
+    char response = ' ';
+    while(run){
+        
+        //Allowment of CPU-play (Notice, as of 1.2, currently un-implemented)
+        int ask = 1;
+        while(ask){
+            cout << "How many human players? (0-2)" << endl;
+            cin >> humans;
+            if(humans > 2) cout << "Too many! (Choose between 0 and 2 for this round)" << endl;
+            else if (humans < 0) cout << "Too few! (Choose between 0 and 2 for this round)" << endl;
+            else ask = 0;
+        }
+        cout << "You have chosen to play with (" << 2-humans << ") computer(s)." << endl;
+        //Creation of the table
+        Table4 t(gameID);
+        t.initialize();
+        t.print(gameID);
+        t.place(gameID);
+        
+        //Ask to play again
+        ask = 1;
+        while (ask){
+            ask = 0;
+            cout << "Would you like to play again? \n (y)es or (n)o" << endl;
+            cin >> response;
+            if(response == 'y') {
+                gameID  = gameID + 2; // Increment gameID by 2 for new players for (y)
+                if(gameID==9) gameID++; // Increment gameID by 1 when we will end up having double digits
+            }
+            else if (response == 'n')   run     = 0; // End the game if (n)
+            else { // Otherwise, ask again
+                cout << "Please give a valid response (lowercase, single-letter only)" << endl;
+                ask = 1;
+            }
+        }
+    }
+    //Completion of game
+    cout << "Thank you for playing Team While's Connect 4!" << endl;
 
     return 0;
 }
