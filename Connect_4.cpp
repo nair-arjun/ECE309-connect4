@@ -23,7 +23,7 @@ public:
 
 class Table4 : public Table { // The child of Table, named Table4 as it is used for connect 4
 private:
-    int id; // game ID 
+    int id; // game ID
     int pieces = 42; // Total amount of plays to make during the game (6x7)
 public:
     Table4(int ID = 0, int p = 42) {
@@ -107,15 +107,14 @@ public:
                 }
             }
         }
-        
+
         return false; // return false if no one has won yet
     }
     void place (int ID){ //The main usage of the game, will begin the process of running the game
-        int x = 0; // x is a rising count of the turns played
         int row = 5; //
         int col = 0;
         int player = ID;
-        while((x < 42) && (check(ID) != 1) && (check (ID+1) != 1)){
+        while((pieces) && (check(ID) != 1) && (check (ID+1) != 1)){
             cout << "Player " << player << "'s turn! Which column do you want to place your piece in? (1-7) \n";
             cin >> col;
             col = col - 1;
@@ -157,7 +156,6 @@ public:
                                 table4[row][col] = ID+1;
                                 pieces--;
                             }
-                            x++;
                             if(player == ID){
                                 player = ID+1;
                             }
@@ -174,7 +172,7 @@ public:
         }
         // The end of the game is reached
         if(check(ID) == 1)       cout << "Player " << ID << " Wins! \n" << endl;
-        else if (check(ID) == 1) cout << "Player " << ID+1 << " Wins! \n" << endl;
+        else if (check(ID+1) == 1) cout << "Player " << ID+1 << " Wins! \n" << endl;
         else                     cout << "Board is full! Game over! \n" << endl;
     }
 
@@ -184,22 +182,16 @@ public:
 
 
 
-
-
-
-
-
-
 int main() {
-    
+
     //Pre-initialization
     int run = 1;
     int humans = 0;
     int gameID = 1;
     char response = ' ';
     while(run){
-        
-        //Allowment of CPU-play (Notice, as of 1.2, currently un-implemented)
+
+        //Allows CPU-play (Notice, as of 1.2, currently un-implemented)
         int ask = 1;
         while(ask){
             cout << "How many human players? (0-2)" << endl;
@@ -210,11 +202,11 @@ int main() {
         }
         cout << "You have chosen to play with (" << 2-humans << ") computer(s)." << endl;
         //Creation of the table
-        Table4 t(gameID);
+        Table4 t(gameID,42);
         t.initialize();
         t.print(gameID);
         t.place(gameID);
-        
+
         //Ask to play again
         ask = 1;
         while (ask){
