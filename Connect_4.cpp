@@ -1,14 +1,18 @@
 //
 // Created by zainj on 11/23/2021.
 // Edited by gjchamna on 11/27/2021.
-// Edited by asnair2 on 12/1/2021
+// Edited by asnair2 on 12/1/2021.
 //
 
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <chrono>
+#include <thread>
+
 
 using namespace std;
+using namespace chrono_literals;
 
 int table4 [6][7];
 
@@ -287,88 +291,73 @@ public:
 
 };
 
-
 class CC : public Table4 {
 private:
-
     int id;
     int pieces = 42;
-
 public:
-
-    CC(int i, int p) {
+    CC (int i, int p){
         id = i;
         pieces = p;
     }
-
-    CC &operator--(int a) {
+    CC& operator -- (int a){
         pieces = pieces - 1;
         return *this;
     }
-
-    void place(int ID) { // Gameplay
+    void place (int ID){
         int row = 5; //
         int col = 0;
         int player = ID;
-        while ((pieces) && (check(ID) != 1) && (check(ID + 1) != 1)) {
-            if (player == ID) {
-                cout << "CPU " << ID << "'s Turn!" << endl;
-                col = rand() % 7 + 1;
-            } else {
-                cout << "CPU " << ID + 1 << "'s Turn!" << endl;
-                col = rand() % 7 + 1;
-            }
+        while((pieces) && (check(ID) != 1) && (check (ID+1) != 1)){
+            cout << "CPU " << player << "'s Turn!" << endl;
+            col = rand() % 7 + 1;
             col = col - 1;
             int z = 0;
             row = 5;
-            while (row > 0) {
-                if ((col > 6) || (col < 0)) {
+            while(row > 0){
+                if ((col > 6) || (col < 0)){
                     cout << "Out of range! Pick another number. \n";
                     col = 0;
-                    if (player == ID) {
-                        col = rand() % 7 + 1;
-                    } else {
-                        col = rand() % 7 + 1;
-                    }
-
+                    col = rand() % 7 + 1;
                     col = col - 1;
-                } else {
-                    if (table4[0][col] != 0) {
+                }
+                else{
+                    if(table4[0][col] != 0){
                         print(ID);
                         cout << "Column is full! Pick another! \n";
                         col = 0;
-                        if (player == ID) {
-                            col = rand() % 7 + 1;
-                        } else {
-                            col = rand() % 7 + 1;
-
-                        }
+                        col = rand() % 7 + 1;
                         col = col - 1;
-                    } else {
+                    }
+                    else{
                         row = 5;
                         int r = 5;
-                        while (r > 0) {
-                            if (table4[row][col] != 0) {
+                        while(r > 0){
+                            if(table4[row][col] != 0){
                                 row--;
                                 r--;
-                            } else {
+                            }
+                            else{
                                 r = 0;
                             }
                         }
                         if (table4[row][col] == 0) {
-                            if (player == ID) {
+                            if(player == ID) {
                                 table4[row][col] = ID;
                                 pieces--;
-                            } else {
-                                table4[row][col] = ID + 1;
+                            }
+                            else{
+                                table4[row][col] = ID+1;
                                 pieces--;
                             }
-                            if (player == ID) {
-                                player = ID + 1;
-                            } else {
+                            if(player == ID){
+                                player = ID+1;
+                            }
+                            else{
                                 player = ID;
                             }
                             print(ID);
+                            std::this_thread::sleep_for(1s);
                             break;
                         }
                         row--;
@@ -377,17 +366,15 @@ public:
             }
         }
         // The end of the game is reached
-        if (check(ID) == 1) cout << "CPU " << ID << " Wins! \n" << endl;
-        else if (check(ID + 1) == 1) cout << "CPU " << ID + 1 << " Wins! \n" << endl;
-        else cout << "Board is full! Game over! \n" << endl;
-
+        if(check(ID) == 1)       cout << "Player " << ID << " Wins! \n" << endl;
+        else if (check(ID+1) == 1) cout << "Player " << ID+1 << " Wins! \n" << endl;
+        else                     cout << "Board is full! Game over! \n" << endl;
 
     }
+
+
+
 };
-
-
-
-
 
 
 int main() {
@@ -397,11 +384,11 @@ int main() {
     int humans = 0;
     int gameID = 1;
     char response = ' ';
-    while (run) {
+    while(run){
 
-        //Allows CPU-play (Notice, as of 1.2, currently un-implemented)
+        //Allows CPU-play
         int ask = 1;
-        while (ask) {
+        while(ask){
             cout << "\n"
                     "                                                                                ,----,                     \n"
                     "               ,----..            ,--.         ,--.                           ,/   .`|                ,--, \n"
@@ -423,58 +410,55 @@ int main() {
 
             cout << "How many human players? (0-2)" << endl;
             cin >> humans;
-            if (humans > 2) cout << "Too many! (Choose between 0 and 2 for this round)" << endl;
+            if(humans > 2) cout << "Too many! (Choose between 0 and 2 for this round)" << endl;
             else if (humans < 0) cout << "Too few! (Choose between 0 and 2 for this round)" << endl;
             else ask = 0;
         }
-        cout << "You have chosen to play with (" << 2 - humans << ") computer(s)." << endl;
+        cout << "You have chosen to play with (" << 2-humans << ") computer(s)." << endl;
         //Creation of the table
-        if (humans == 2) {
-            Table4 t(gameID, 42);
-            t.initialize();
-            t.print(gameID);
-            t.place(gameID);
-
-        } else if (humans == 0) {
-            CC t(gameID, 42);
-            t.initialize();
-            t.print(gameID);
-            t.place(gameID);
-        } else if (humans == 1) {
-            PC t(gameID, 42);
+        if(humans == 2) {
+            Table4  t (gameID, 42);
             t.initialize();
             t.print(gameID);
             t.place(gameID);
 
         }
+        else{
+            if(humans == 1){
+                PC t(gameID, 42);
+                t.initialize();
+                t.print(gameID);
+                t.place(gameID);
 
+            }
+            else{
+                CC t (gameID, 42);
+                t.initialize();
+                t.print(gameID);
+                t.place(gameID);
+            }
+        }
 
 
         //Ask to play again
         ask = 1;
-        while (ask) {
+        while (ask){
             ask = 0;
             cout << "Would you like to play again? \n (y)es or (n)o" << endl;
             cin >> response;
-            if (response == 'y') {
-                gameID = gameID + 2; // Increment gameID by 2 for new players for (y)
-                if (gameID == 9) gameID++; // Increment gameID by 1 when we will end up having double digits
-            } else if (response == 'n') run = 0; // End the game if (n)
+            if(response == 'y') {
+                gameID  = gameID + 2; // Increment gameID by 2 for new players for (y)
+                if(gameID==9) gameID++; // Increment gameID by 1 when we will end up having double digits
+            }
+            else if (response == 'n')   run     = 0; // End the game if (n)
             else { // Otherwise, ask again
                 cout << "Please give a valid response (lowercase, single-letter only)" << endl;
                 ask = 1;
             }
         }
-
-        //Completion of game
-        cout << "Thank you for playing our Connect 4!" << endl;
-        cout << " ______   ______     ______     __    __        __     __     __  __     __     __         ______    \n"
-                "/\\__  _\\ /\\  ___\\   /\\  __ \\   /\\ \"-./  \\      /\\ \\  _ \\ \\   /\\ \\_\\ \\   /\\ \\   /\\ \\       /\\  ___\\   \n"
-                "\\/_/\\ \\/ \\ \\  __\\   \\ \\  __ \\  \\ \\ \\-./\\ \\     \\ \\ \\/ \".\\ \\  \\ \\  __ \\  \\ \\ \\  \\ \\ \\____  \\ \\  __\\   \n"
-                "   \\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\ \\ \\_\\     \\ \\__/\".~\\_\\  \\ \\_\\ \\_\\  \\ \\_\\  \\ \\_____\\  \\ \\_____\\ \n"
-                "    \\/_/   \\/_____/   \\/_/\\/_/   \\/_/  \\/_/      \\/_/   \\/_/   \\/_/\\/_/   \\/_/   \\/_____/   \\/_____/ \n"
-                "                                                                                                     " <<  endl;
-
-        return 0;
     }
-};
+    //Completion of game
+    cout << "Thank you for playing Team While's Connect 4!" << endl;
+
+    return 0;
+}
