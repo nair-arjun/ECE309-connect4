@@ -5,6 +5,7 @@ Game Description:
   The game ends when a player wins, or when the board is full of pieces.
   When a game ends, the players can opt to play another game or end their session.
   If they choose to play again, they must choose how many humans are playing and they will be assigned new player IDs.
+  It is possible for a person to play against a computer, or allow a computer to play against another computer.
 
 How to Run:
   The game can be run using any kind of C++ compiler.
@@ -18,9 +19,18 @@ Known Bugs:
 
 *Changelog:*
 
-  Version 1.3:
+  Version 1.6:
+    ASCII art is displayed when the game is first ran. - asnair2
+  
+  Version 1.5:
+    Added a delay between CPU inputs for CPU v CPU play. This allows for time for the player to see each move that each CPU makes until a winner is decided. - zainj 
+
+  Version 1.4:
     Added CPU v CPU inherited class that allows two CPU's to play each other. Implemented CPU v CPU selection into main function to allow user to select 0 human mode
     - asnair2
+    
+  Version 1.3:
+    Added Human v CPU inherited class that allows a player to play against a CPU. This class begins to run if the player says that 1 human is playing. As of now, the CPU intelligence is very primitive. - zainj & gittc
 
   Version 1.2:
     A new version of the game where the player is allowed to call for a number of humans playing (not implemented yet) and to ask to play again (implemented).
