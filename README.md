@@ -20,7 +20,7 @@ Known Bugs:
 *Changelog:*
 
   Version 1.6:
-    ASCII art is displayed when the game is first ran. - asnair2
+    ASCII art is displayed when a new game begins. - asnair2
   
   Version 1.5:
     Added a delay between CPU inputs for CPU v CPU play. This allows for time for the player to see each move that each CPU makes until a winner is decided. - zainj 
