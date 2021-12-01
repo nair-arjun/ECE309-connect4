@@ -11,6 +11,7 @@ How to Run:
   The game can be run using any kind of C++ compiler.
 
 Unique Features:
+  When a new game begins, ASCII art saying "Connect 4" is displayed.
   When the player ID reaches 10 (at game 5), the counter for empty space (0) will be doubled to keep the board stabilized according to the number of players.
 
 Known Bugs:
