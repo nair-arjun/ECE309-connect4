@@ -17,6 +17,11 @@ Known Bugs:
 
 
 *Changelog:*
+
+  Version 1.3:
+    Added CPU v CPU inherited class that allows two CPU's to play each other. Implemented CPU v CPU selection into main function to allow user to select 0 human mode
+    - asnair2
+
   Version 1.2:
     A new version of the game where the player is allowed to call for a number of humans playing (not implemented yet) and to ask to play again (implemented).
     When they play again, they will be assigned a new player ID.
