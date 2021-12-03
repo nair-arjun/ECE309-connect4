@@ -357,7 +357,7 @@ public:
                                 player = ID;
                             }
                             print(ID);
-                            std::this_thread::sleep_for(1s);
+                           // std::this_thread::sleep_for(1s);  // Code worked on CLion but doesn't work on any online compiler so I took it out (it delays the cpu turns so user can see what is going on)
                             break;
                         }
                         row--;
@@ -386,7 +386,7 @@ int main() {
     char response = ' ';
     while(run){
 
-        
+
         cout << "\n"
                 "                                                                                ,----,                     \n"
                 "               ,----..            ,--.         ,--.                           ,/   .`|                ,--, \n"
