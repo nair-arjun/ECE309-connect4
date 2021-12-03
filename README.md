@@ -19,6 +19,9 @@ Known Bugs:
 
 
 *Changelog:*
+  
+  Version 1.7:
+    Delay for CPU v CPU was removed due to incompatibility with common compilers running normal C++.
 
   Version 1.6:
     ASCII art is displayed when a new game begins. - asnair2
