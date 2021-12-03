@@ -7,12 +7,12 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <chrono>
-#include <thread>
+//#include <chrono>
+//#include <thread>
 
 
 using namespace std;
-using namespace chrono_literals;
+//using namespace chrono_literals;
 
 int table4 [6][7];
 
